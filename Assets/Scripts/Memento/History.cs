@@ -24,6 +24,9 @@ public class History : MonoBehaviour
     {
         int index = turnCount - 1;
         
+        if(turnCount == 3)
+            index = 0;
+        
         Debug.Log("COUNT: " + turnCount + " INDEX: " + index + " HISTORY COUNT: " + _history.Count);
 
         for(int i = index; i > _history.Count; i--)
