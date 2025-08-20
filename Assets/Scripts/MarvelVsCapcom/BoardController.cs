@@ -5,7 +5,6 @@ public class BoardController : MonoBehaviour
     [SerializeField] private BoardViewer boardViewer;
     [SerializeField] private int debugX;
     [SerializeField] private int debugY;
-
     
     private BoardModel boardModel = new BoardModel();
     
@@ -33,5 +32,11 @@ public class BoardController : MonoBehaviour
     public void SetDos()
     {
         SetDos(debugX, debugY);
+    }
+    
+    public BoardMemento CreateMemento()
+    {
+        BoardMemento memento = new BoardMemento(boardModel.GetMatrix());
+        return memento;
     }
 }

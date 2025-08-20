@@ -4,8 +4,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     
-    [SerializeField] private BoardController boardController;
+    [SerializeField] private History history;
+    [SerializeField] public BoardController boardController;
     public bool playerUnoTurn { get; private set; } = true;
+    public int TurnCount { get; private set; } = 1;
     
     private void Awake()
     {
@@ -23,6 +25,10 @@ public class GameManager : MonoBehaviour
         else
             boardController.SetDos(x, y);
         
-        playerUnoTurn = !playerUnoTurn; 
+        history.CreateMemento(TurnCount);
+        TurnCount++;
+        playerUnoTurn = !playerUnoTurn;
     }
+    
+    //redo + undo
 }
