@@ -9,26 +9,31 @@ public enum SlotContent
 
 public class BoardModel
 {
-    private SlotContent[,] _slots = new SlotContent[3,3];
+    private SlotContent[,] slots = new SlotContent[3,3];
 
     public void SetUno(int x, int y)
     {
-        _slots[x, y] = SlotContent.DinoUno;
+        SetSlot(x, y, SlotContent.DinoUno);
     }
 
     public void SetDos(int x, int y)
     {
-        _slots[x, y] = SlotContent.DinoDos;
+        SetSlot(x, y, SlotContent.DinoDos);
     }
-    
+
     public void SetClearSlot(int x, int y)
     {
-        _slots[x, y] = SlotContent.Empty;
+        SetSlot(x, y, SlotContent.Empty);
+    }
+
+    public void SetSlot(int x, int y, SlotContent slot)
+    {
+        slots[x, y] = slot;
     }
     
     public SlotContent GetSlotContent(int x, int y)
     {
-       return _slots[x, y];
+       return slots[x, y];
     }
     
     public SlotContent[,] GetMatrix()
@@ -37,7 +42,7 @@ public class BoardModel
         
         for (int i = 0; i < 3; i++)
             for (int j = 0; j < 3; j++)
-                temp[i, j] = _slots[i, j];
+                temp[i, j] = slots[i, j];
                 
         return temp;
     }

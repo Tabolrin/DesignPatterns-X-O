@@ -1,34 +1,59 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance;
-    
+    public static GameManager Instance { get; private set; }
+
+    [SerializeField] TextMeshProUGUI text;
+
     [SerializeField] private History history;
     [SerializeField] public BoardController boardController;
-    public bool playerUnoTurn { get; private set; } = true;
+    public bool PlayerUnoTurn { get; private set; } = true;
     public int TurnCount { get; private set; } = 1;
     
     private void Awake()
     {
-        if (!instance)
-            instance = this;
+        if (!Instance)
+            Instance = this;
         else
             Destroy(gameObject);
     }
-    
-    
+
+    private void Update()
+    {
+        text.text = $"Player 1? {PlayerUnoTurn}\ncurrent turn {TurnCount}";
+    }
     public void GetInput(int x, int y)
     {
-        if (playerUnoTurn)
+        if (PlayerUnoTurn)
             boardController.SetUno(x, y);
         else
             boardController.SetDos(x, y);
         
-        history.CreateMemento(TurnCount);
+        history.CreateMemento(TurnCount, PlayerUnoTurn);
+        
+        PlayerUnoTurn = !PlayerUnoTurn;
         TurnCount++;
-        playerUnoTurn = !playerUnoTurn;
     }
     
-    //redo + undo
+    public void Undo()
+    {
+        TurnCount--; //make sure no 0
+        LoadPreviousTurn();
+    }
+    public void Redo()
+    {
+        TurnCount++;
+        LoadPreviousTurn();
+
+    }
+
+    private void LoadPreviousTurn()
+    {
+        BoardMemento memento = history.GetBoardMemento(TurnCount - 1);
+        PlayerUnoTurn = !memento.DinoUnoTurn;
+        boardController.SetBoard(memento);
+    }
 }

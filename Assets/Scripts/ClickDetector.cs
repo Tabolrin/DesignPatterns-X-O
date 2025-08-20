@@ -9,6 +9,6 @@ public class ClickDetector : MonoBehaviour
 
     private void OnMouseUp()
     {
-        GameManager.instance.GetInput(x, y);
+        GameManager.Instance.GetInput(x, y);
     }
 }

@@ -22,4 +22,21 @@ public class BoardViewer : MonoBehaviour
     {
         slotRenderers[x].sprite = null;
     }
+
+    public void SetSlot(int x, SlotContent content)
+    {
+        switch(content)
+        {
+            case SlotContent.Empty:
+                ClearSlot(x);
+                break;
+            case SlotContent.DinoUno:
+                SetUno(x);
+                break;
+            case SlotContent.DinoDos:
+                SetDos(x);
+                break;
+
+        }
+    }
 }
