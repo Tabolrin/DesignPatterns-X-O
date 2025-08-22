@@ -20,6 +20,12 @@ public class GameManager : MonoBehaviour
         else
             Destroy(gameObject);
 
+        
+    }
+    private void Start()
+    {
+        
+        history.CreateMemento(0, false);
         SetUI();
     }
 
@@ -53,6 +59,13 @@ public class GameManager : MonoBehaviour
     private void SetUI()
     {
         uiManager.SetDisplayArea(TurnCount, PlayerUnoTurn);
+        bool undoAvailable = true;
+        bool redoAvailable = true;
+        if (TurnCount == 1)
+            undoAvailable = false;
+        if (TurnCount == history.Count)
+            redoAvailable = false;
+        uiManager.SetUndoRedo(undoAvailable, redoAvailable);
     }
     private void LoadPreviousTurn()
     {

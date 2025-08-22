@@ -6,24 +6,25 @@ public class History : MonoBehaviour
     private BoardController boardController {get { return GameManager.Instance.boardController; }}
     private List<BoardMemento> historyList = new List<BoardMemento>();
     
+    public int Count => historyList.Count;
+
+
     public BoardMemento GetBoardMemento(int turnCount)
     {
-        int index = turnCount - 1; // Adjust for zero-based index
+        int index = turnCount;// - 1; // Adjust for zero-based index
 
         if (index < 0 || index >= historyList.Count)
         {
-            Debug.LogError("Index out of bounds");
+            Debug.LogError($"Index out of bounds");
             return null;
         }
 
         
         return historyList[index];
     }
-
-    
     public void CreateMemento(int turnCount, bool dinoUnoTurn)
     {
-        int index = turnCount - 1;
+        int index = turnCount;// - 1;
 
         //Delete all moves that this new move would overwrite (after undo)
         while(index < historyList.Count)
