@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-        history.CreateMemento(0, false);
+        history.CreateMemento(0, false, boardController);
         SetUI();
     }
 
@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
         else
             boardController.SetDos(x, y);
         
-        history.CreateMemento(TurnCount, PlayerUnoTurn);
+        history.CreateMemento(TurnCount, PlayerUnoTurn, boardController);
         
         PlayerUnoTurn = !PlayerUnoTurn;
         TurnCount++; 

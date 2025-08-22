@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class History : MonoBehaviour
 {
-    private BoardController boardController {get { return GameManager.Instance.boardController; }}
+    
     private List<BoardMemento> historyList = new List<BoardMemento>();
     
     public int Count => historyList.Count;
@@ -22,7 +22,7 @@ public class History : MonoBehaviour
         
         return historyList[index];
     }
-    public void CreateMemento(int turnCount, bool dinoUnoTurn)
+    public void CreateMemento(int turnCount, bool dinoUnoTurn, BoardController boardController)
     {
         int index = turnCount;// - 1;
 
