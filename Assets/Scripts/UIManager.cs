@@ -14,6 +14,8 @@ public class UIManager : MonoBehaviour
     [Header("ButtonArea")]
     [SerializeField] Button undoButton;
     [SerializeField] Button redoButton;
+    [Header("Victory Panel")]
+    [SerializeField] GameObject victoryPanel;
 
 
     public void SetUndoRedo(bool undo, bool redo)
