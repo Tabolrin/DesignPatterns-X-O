@@ -22,7 +22,7 @@ public class History : MonoBehaviour
         
         return historyList[index];
     }
-    public void CreateMemento(int turnCount, bool dinoUnoTurn, BoardController boardController)
+    public void CreateMemento(int turnCount, bool dinoUnoTurn, BoardController boardController, bool victoryAchived)
     {
         int index = turnCount;// - 1;
 
@@ -38,6 +38,7 @@ public class History : MonoBehaviour
                 memento.SlotMat[i, j] = boardController.GetSlot(i, j);
             }
         memento.DinoUnoTurn = dinoUnoTurn;
+        memento.VictoryAchived = victoryAchived;
         
         historyList.Add(memento);
     }

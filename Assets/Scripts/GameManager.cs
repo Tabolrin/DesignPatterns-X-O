@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private History history;
     [SerializeField] public BoardController boardController;
+
+    private bool canGetInput = true;
     
     public bool PlayerUnoTurn { get; private set; } = true;
     public int TurnCount { get; private set; } = 1;
@@ -25,7 +27,7 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-        history.CreateMemento(0, false, boardController);
+        history.CreateMemento(0, false, boardController, false);
         SetUI();
     }
 
@@ -33,16 +35,19 @@ public class GameManager : MonoBehaviour
     {
         if (boardController.GetSlot(x, y) != SlotContent.Empty)
             return;
+        if (!canGetInput)
+            return;
         
         if (PlayerUnoTurn)
             boardController.SetUno(x, y);
         else
             boardController.SetDos(x, y);
-        
-        if(CheckWin(x,y))
-            
-        
-        history.CreateMemento(TurnCount, PlayerUnoTurn, boardController);
+
+        bool won = CheckWin(x, y);
+        if (won)
+            ActOnWin();
+
+        history.CreateMemento(TurnCount, PlayerUnoTurn, boardController, won);
         
         PlayerUnoTurn = !PlayerUnoTurn;
         TurnCount++; 
@@ -52,19 +57,27 @@ public class GameManager : MonoBehaviour
     public void Undo()
     {
         TurnCount--; //make sure no 0
+        canGetInput = true;
         LoadPreviousTurn();
-        SetUI();
     }
     public void Redo()
     {
         TurnCount++;
         LoadPreviousTurn();
+    }
+    public void ResetGame()
+    {
+        TurnCount = 1; //make sure no 0
+        canGetInput = true;
+        LoadPreviousTurn();
+        history.CreateMemento(0, false, boardController, false);
         SetUI();
     }
 
     private void SetUI()
     {
         uiManager.SetDisplayArea(TurnCount, PlayerUnoTurn);
+
         bool undoAvailable = true;
         bool redoAvailable = true;
         if (TurnCount == 1)
@@ -78,6 +91,12 @@ public class GameManager : MonoBehaviour
         BoardMemento memento = history.GetBoardMemento(TurnCount - 1);
         PlayerUnoTurn = !memento.DinoUnoTurn;
         boardController.SetBoard(memento);
+        if (memento.VictoryAchived)
+        {
+            PlayerUnoTurn = memento.DinoUnoTurn;
+            ActOnWin();
+        }
+        SetUI();
     }
 
     private bool CheckWin(int x, int y)
@@ -127,5 +146,10 @@ public class GameManager : MonoBehaviour
         }
 
         return false;
+    }
+    private void ActOnWin()
+    {
+        uiManager.OpenVictoryPanel(PlayerUnoTurn);
+        canGetInput = false;
     }
 }

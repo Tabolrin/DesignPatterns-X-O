@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] Button redoButton;
     [Header("Victory Panel")]
     [SerializeField] GameObject victoryPanel;
+    [SerializeField] Image winnerImage;
 
 
     public void SetUndoRedo(bool undo, bool redo)
@@ -32,5 +33,19 @@ public class UIManager : MonoBehaviour
             currentPlayerImageDisplayer.sprite = playerUnoSprite;
         else
             currentPlayerImageDisplayer.sprite = playerDosSprite;
+    }
+
+    public void OpenVictoryPanel(bool playerUnoWon)
+    {
+        victoryPanel.gameObject.SetActive(true);
+
+        if (playerUnoWon)
+            winnerImage.sprite = playerUnoSprite;
+        else
+            winnerImage.sprite = playerDosSprite;
+    }
+    public void CloseVictoryPanel()
+    {
+        victoryPanel.gameObject.SetActive(false);
     }
 }
