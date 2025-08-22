@@ -24,13 +24,15 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-        
         history.CreateMemento(0, false);
         SetUI();
     }
 
     public void GetInput(int x, int y)
     {
+        if (boardController.GetSlot(x, y) != SlotContent.Empty)
+            return;
+        
         if (PlayerUnoTurn)
             boardController.SetUno(x, y);
         else
@@ -73,4 +75,6 @@ public class GameManager : MonoBehaviour
         PlayerUnoTurn = !memento.DinoUnoTurn;
         boardController.SetBoard(memento);
     }
+    
+    private void CheckWin(){}
 }
