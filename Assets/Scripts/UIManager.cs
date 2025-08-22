@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] Button undoButton;
     [SerializeField] Button redoButton;
 
+
     public void SetUndoRedo(bool undo, bool redo)
     {
         undoButton.interactable = undo;

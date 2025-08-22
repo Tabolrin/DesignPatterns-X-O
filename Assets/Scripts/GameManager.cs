@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private History history;
     [SerializeField] public BoardController boardController;
+    
     public bool PlayerUnoTurn { get; private set; } = true;
     public int TurnCount { get; private set; } = 1;
     
@@ -37,6 +38,9 @@ public class GameManager : MonoBehaviour
             boardController.SetUno(x, y);
         else
             boardController.SetDos(x, y);
+        
+        if(CheckWin(x,y))
+            
         
         history.CreateMemento(TurnCount, PlayerUnoTurn, boardController);
         
@@ -75,6 +79,53 @@ public class GameManager : MonoBehaviour
         PlayerUnoTurn = !memento.DinoUnoTurn;
         boardController.SetBoard(memento);
     }
-    
-    private void CheckWin(){}
+
+    private bool CheckWin(int x, int y)
+    {
+        SlotContent slot = boardController.GetSlot(x, y);
+        
+        for (int i = 0; i < 3; i++)
+        {
+            if(boardController.GetSlot(x,i) != slot)
+                break;
+            
+            if (i==2)
+                return true;
+        }
+        
+        for (int i = 0; i < 3; i++)
+        {
+            if(boardController.GetSlot(i,y) != slot)
+                break;
+            
+            if (i==2)
+                return true;
+        }
+        
+        if (x == y)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                if(boardController.GetSlot(i,i) != slot)
+                    break;
+                
+                if (i==2)
+                    return true;
+            }
+        }
+        
+        if (x + y == 2)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                if(boardController.GetSlot(i, 2 - i) != slot)
+                    break;
+                
+                if (i==2)
+                    return true;
+            }
+        }
+
+        return false;
+    }
 }
