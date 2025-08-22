@@ -10,7 +10,6 @@ public class History : MonoBehaviour
     {
         int index = turnCount - 1; // Adjust for zero-based index
 
-        Debug.Log($"Asked for turn {turnCount}, the index is {index} and there are {historyList.Count} saved mementos");
         if (index < 0 || index >= historyList.Count)
         {
             Debug.LogError("Index out of bounds");

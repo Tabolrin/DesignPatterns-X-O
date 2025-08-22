@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    [SerializeField] TextMeshProUGUI text;
+    [SerializeField] UIManager uiManager;
 
     [SerializeField] private History history;
     [SerializeField] public BoardController boardController;
@@ -19,12 +19,10 @@ public class GameManager : MonoBehaviour
             Instance = this;
         else
             Destroy(gameObject);
+
+        SetUI();
     }
 
-    private void Update()
-    {
-        text.text = $"Player 1? {PlayerUnoTurn}\ncurrent turn {TurnCount}";
-    }
     public void GetInput(int x, int y)
     {
         if (PlayerUnoTurn)
@@ -35,21 +33,27 @@ public class GameManager : MonoBehaviour
         history.CreateMemento(TurnCount, PlayerUnoTurn);
         
         PlayerUnoTurn = !PlayerUnoTurn;
-        TurnCount++;
+        TurnCount++; 
+        SetUI();
     }
-    
+
     public void Undo()
     {
         TurnCount--; //make sure no 0
         LoadPreviousTurn();
+        SetUI();
     }
     public void Redo()
     {
         TurnCount++;
         LoadPreviousTurn();
-
+        SetUI();
     }
 
+    private void SetUI()
+    {
+        uiManager.SetDisplayArea(TurnCount, PlayerUnoTurn);
+    }
     private void LoadPreviousTurn()
     {
         BoardMemento memento = history.GetBoardMemento(TurnCount - 1);
